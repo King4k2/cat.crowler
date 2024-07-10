@@ -26,16 +26,11 @@ def gen_url1(code, raw_url="https://parts.cat.com/en/catcorp/", mode="1"):
         return None
 
 
-def gen_url2(raw_url="https://parts.cat.com/api/product/detail?"):
-    url = raw_url
-    return url
-
-
 def main():
     workbook = load_workbook("Full list.xlsx")
     sh = workbook["Sheet1"]
     k_ = 4
-    for a in range(13699+1, sh.max_row):
+    for a in range(1+1, sh.max_row):
         item_id = sh[f"A{a}"].value
         part_id = sh[f"B{a}"].value
         try:
@@ -56,8 +51,8 @@ def main():
                 part_id = str(part_id).split("/")[0]
         # --------------------------------------------------------------
         proxies = {
-            "https": "socks5://hvrNfVwr:Ld5ZnE9K@154.195.152.232:64253",
-            # "http": "http://154.195.152.232:64252@hvrNfVwr:Ld5ZnE9K"
+            "https": "",
+            # "http": ""
         }
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"
@@ -82,7 +77,7 @@ def main():
             l_ = 0
             while True:
                 try:
-                    req = requests.get(url, proxies=proxies, headers=headers)
+                    req = requests.get(url, headers=headers)
                     if int(req.status_code) == 200:
                         break
                     if int(req.status_code) == 404:
@@ -109,7 +104,7 @@ def main():
                    f"&partNumber={gen_url1(code=part_id, mode="2")}&&storeId=21801&langId=-1")
             while True:
                 try:
-                    req = requests.get(url=url, proxies=proxies, headers=headers)
+                    req = requests.get(url=url, headers=headers)
                     if int(req.status_code) == 200:
                         break
                     else:
@@ -147,4 +142,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    os.system("shutdown /s /t 1")
